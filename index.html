@@ -18,8 +18,14 @@
   <p id="indo">Voltando para o Synapse Livre…</p>
   <div id="manual" hidden>
     <p>Não consegui falar com o Synapse Livre neste computador. Confira se o app está aberto e
-      cole este endereço em <b>Configurações › Mercado Livre › A janela não abriu?</b></p>
+      cole este endereço em <b>Configurações › Mercado Livre › Não conectou sozinho?</b></p>
     <p><code id="endereco"></code></p>
+  </div>
+  <div id="direto" hidden>
+    <p>Esta é a página de volta do login do Mercado Livre: ela não é para ser aberta direto.</p>
+    <p>Para conectar uma conta, abra o Synapse Livre e clique em
+      <b>Configurações › Mercado Livre › Conectar conta do Mercado Livre</b>. Depois de autorizar, o
+      Mercado Livre traz você para cá e o Synapse conecta sozinho.</p>
   </div>
 </main>
 <script>
@@ -31,8 +37,11 @@
   document.getElementById("endereco").textContent = location.href;
   if (porta && (q.has("code") || q.has("error"))) {
     location.replace("http://127.0.0.1:" + porta[1] + "/ml/retorno" + location.search);
+    setTimeout(() => { document.getElementById("indo").hidden = true; document.getElementById("manual").hidden = false; }, 4000);
+  } else {
+    document.getElementById("indo").hidden = true;
+    document.getElementById("direto").hidden = false;
   }
-  setTimeout(() => { document.getElementById("indo").hidden = true; document.getElementById("manual").hidden = false; }, 4000);
 </script>
 </body>
 </html>
