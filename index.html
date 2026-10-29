@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>Synapse Livre</title>
+<style>
+  body { font: 15px/1.5 system-ui, sans-serif; background: #d2cdc3; color: #1f1d1a; margin: 0; display: grid; place-items: center; min-height: 100vh; }
+  main { background: #f4f2ed; border-radius: 8px; padding: 28px 32px; max-width: 520px; margin: 16px; }
+  code { word-break: break-all; background: #e6e2da; padding: 2px 5px; border-radius: 4px; }
+  [hidden] { display: none; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Synapse Livre</h1>
+  <p id="indo">Voltando para o Synapse Livre…</p>
+  <div id="manual" hidden>
+    <p>Não consegui falar com o Synapse Livre neste computador. Confira se o app está aberto e
+      cole este endereço em <b>Configurações › Mercado Livre › A janela não abriu?</b></p>
+    <p><code id="endereco"></code></p>
+  </div>
+</main>
+<script>
+  // O Mercado Livre não aceita localhost como redirecionamento: esta página só repassa o código
+  // (que não serve para nada sem o Secret do app) para o Synapse Livre aberto neste computador.
+  // A porta vem no começo do "state" que o próprio Synapse gerou: "8765.xxxx".
+  const q = new URLSearchParams(location.search);
+  const porta = /^(\d{2,5})\./.exec(q.get("state") || "");
+  document.getElementById("endereco").textContent = location.href;
+  if (porta && (q.has("code") || q.has("error"))) {
+    location.replace("http://127.0.0.1:" + porta[1] + "/ml/retorno" + location.search);
+  }
+  setTimeout(() => { document.getElementById("indo").hidden = true; document.getElementById("manual").hidden = false; }, 4000);
+</script>
+</body>
+</html>
